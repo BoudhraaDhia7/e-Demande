@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: sammy
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: backoffice
+    container_name: backoffice-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - backoffice
+
+
+
+  nginx:
+    image: nginx:alpine
+    container_name: backoffice-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    networks:
+      - backoffice
+
+networks:
+  backoffice:
+    driver: bridge
