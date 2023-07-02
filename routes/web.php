@@ -1,12 +1,15 @@
 <?php
 
 
-use App\Http\Controllers\AdminController;
+use App\Models\Reclamation;
+use App\Http\Middleware\CheckStatus;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ReclamationController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckStatus;
+use App\Http\Controllers\ContactController;
 
 
 /*
@@ -26,7 +29,36 @@ Route::get('/admin', function () {
 });
 
 Route::get('/', function () {
-    return view('pages.main_index');
+    $reclamations = Reclamation::all();
+    //return view with reclamations
+    $stats = [
+        'traité' => 0,
+        'en attente' => 0,
+        'en cours' => 0,
+    ];
+    $total = 0;
+    foreach ($reclamations as $reclamation) {
+        switch($reclamation->state){
+            case 'Terminé':
+                $stats['traité']++;
+                $total++;
+                break;
+            case 'En attente':
+                $stats['en attente']++;
+                $total++;
+                break;
+            case 'En cours':
+                $stats['en cours']++;
+                $total++;
+                break;
+            default:
+                break;    
+        }
+    }
+    $stats['traité'] = round($stats['traité']/$total*100);
+    $stats['en attente'] = round($stats['en attente']/$total*100);
+    $stats['en cours'] = round($stats['en cours']/$total*100);
+    return view('pages.main_index', compact('stats'));
 });
 Route::get('/reclamer', function () {
     return view('pages.reclamation');
@@ -79,6 +111,10 @@ Route::group(['middleware' => 'auth'], function () {
             
         });
 
+        Route::prefix('stats')->group(function () {
+            Route::get('', [StatsController::class, 'index'])->name('stats'); 
+        });
+
         Route::prefix('reclamation')->group(function () {
            
             Route::get('', [ReclamationController::class, 'index'])->name('reclamations');
@@ -128,6 +164,29 @@ Route::group(['middleware' => 'auth'], function () {
                 MaterialController::class,
                 'destroy',
             ])->name('delete-material');
+            
+        });
+
+        Route::prefix('contact')->group(function () {
+           
+            Route::get('', [contactController::class, 'index'])->name('contact');
+         
+            Route::post('add-contact', [contactController::class, 'store'])->name(
+                'add-contact'
+            );
+            
+            Route::get('detail/{id}', [contactController::class, 'show'])->name(
+                'detail-contact'
+            );
+            
+            Route::put('update/{id}', [contactController::class, 'update'])->name(
+                'update-contact'
+            );
+            
+            Route::get('delete/{id}', [
+                contactController::class,
+                'destroy',
+            ])->name('delete-contact');
             
         });
        

@@ -118,6 +118,7 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAs2DHu6AvTQ-no_c4panFGZW0K5W-bdyg&exp&sensor=false&libraries=places" sensor="false"></script>
     <script type="text/javascript">
         $(function(){
+
             var la = "{{ $reclamation->la !=null ?  $reclamation->la : 35.67743306240599}} ";
             var ln = "{{ $reclamation->ln !=null ?  $reclamation->ln : 10.097028163014665 }} ";
             var latlng=new google.maps.LatLng(la, ln);
@@ -129,7 +130,7 @@
                                                                    ;
         var marker=new google.maps.Marker({
                                     
-                                            position:new google.maps.LatLng(35.67743306240599, 10.097028163014665),
+                                            position:new google.maps.LatLng(la, ln),
                                             map:map,
                                             draggable:false,
                                             animation:google.maps.Animation.DROP

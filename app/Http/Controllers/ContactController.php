@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inbox;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use DataTables;
+
 
 class ContactController extends Controller
 {
@@ -12,24 +16,23 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($mode = null)
+    public function index(Request $request)
     {
-        if($mode == null) {
-            $contact = Contact::where('status', 0)->latest()->paginate(8);
-        }else{
-            $contact = Contact::latest()->paginate(8);
-        }
-        return view('pages.contacts', compact('contact'));
+                if (Auth::user()->role <= 1) {
+                    if ($request->ajax()) {
+                        $data = Inbox::all();;
+                        return Datatables::of($data)
+                            ->addIndexColumn()
+                            ->make(true);
+                    }
+                    return view('pages.contacts_index');
+                } else {
+                    abort(403);
+                }
     }
 
 
-    public function vuContact($id)
-    {
-        $contact = Contact::find($id);
-        $contact->status = 1;
-        $contact->save();
-        return redirect()->route('list-contants')->with('success', ' Message archivé ');
-    }
+
 
 
     /**
@@ -50,7 +53,15 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //save the request to database 
+        $contact = new Inbox();
+        $contact->from_user = $request->from_user;
+        $contact->email = $request->email;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+        $contact->save();
+        //return ok statues
+        return response('OK');
     }
 
     /**

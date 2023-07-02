@@ -120,8 +120,7 @@ class ReclamationController extends Controller
      */
     public function store(Request $request)
     {
-        $reclamation = $request->all();
-        
+       $reclamation = $request->all();
        $data =[
             'name' => $reclamation['name'], 
             'lastname' => $reclamation['lastname'],
@@ -141,7 +140,7 @@ class ReclamationController extends Controller
                
                 return response('verifier vos information',500);
             }
-            $this->sms('Cher client, votre réclamation a été bien enregistré.',$reclamation['phone']);
+            //$this->sms('Cher client, votre réclamation a été bien enregistré.',$reclamation['phone']);
             return response('OK', 200);
 
 
@@ -157,7 +156,6 @@ class ReclamationController extends Controller
         $reclamation =  Reclamation::find($id);
         $users= User::all()->where('role', 2);
         $prefix = $this->prefix;
-     
         return view('pages.reclamation_edit', compact('reclamation','prefix','users'));
     }
 
@@ -171,10 +169,9 @@ class ReclamationController extends Controller
                 $reclamation->save();
                 $this->sms('Cher client, votre réclamation et en cours de traitement.',$reclamation->phone); 
             }else{
-                $reclamation->state = 'Terminé';
-                
+                $reclamation->state = 'Terminé'; 
                 $reclamation->save();
-               $this->sms('Cher client, votre réclamation est bien traité.',$reclamation->phone);
+                $this->sms('Cher client, votre réclamation est bien traité.',$reclamation->phone);
             }
         return redirect()->route('reclamations');
     }

@@ -32,15 +32,9 @@
                         <h3 class="card-title">Boite de reception</h3>
                         
                         <div class="mb-3">
-                            <span>Pas de messages pour le moment.</span>
+                            <span>Consulter les messages pour le moment.</span>
                         </div>
-                        <div class="row justify-content-center">
-                            <a href="/contacts/all">Voir Historique</a>
-                        </div>
-                   
-                        <div class="mb-3">
-                            <span>Vous avez <strong> {{'test fix'}} </strong> messages non lus</span>
-                        </div>
+                       
                         <div class="row justify-content-center">
                             <a href="/contacts">Voir messages</a>
                         </div>

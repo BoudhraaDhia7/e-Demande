@@ -29,7 +29,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->role <= 1)
+            @if (Auth::user()->role <= -1)
                 <li class="nav-item {{ $activePage == 'material_table' ? ' active' : '' }}">
                     <a class="nav-link" href="{{route('material')}}">
                         <i class="fas fa-cog"></i>
@@ -46,15 +46,15 @@
                 </li>
             @endif
             @if (Auth::user()->role <= 1)
-                <li class="nav-item{{ $activePage == 'players' ? ' active' : '' }}">
-                    <a class="nav-link" href="">
+                <li class="nav-item{{ $activePage == 'stats' ? ' active' : '' }}">
+                    <a class="nav-link" href="/stats">
                         <i class="fa fa-bar-chart"></i>
                         <p>Statistique</p>
                     </a>
                 </li>
             @endif
             @if (Auth::user()->role == 2)
-            <li class="nav-item{{ $activePage == 'order' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'reclamation_table' ? ' active' : '' }}">
                 <a class="nav-link" href="{{route('reclamations')}}">
                     <i class="fas fa-exchange-alt"></i>
                     <p>Ordre de travail</p>
@@ -62,7 +62,7 @@
             </li>
             @endif
             @if (Auth::user()->role <= 1)
-            <li class="nav-item{{ $activePage == 'contacts' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'inbox' ? ' active' : '' }}">
                 <a class="nav-link" href="">
                     <i class="fas fa-inbox"></i>
                     <p>Boite de réception</p>

@@ -98,7 +98,7 @@
               alimentation électrique
             </h2>
             <div class="d-flex justify-content-center justify-content-lg-start">
-              <a href="" target="_blank" class="btn-get-started scrollto">Se réclamer</a>
+              <a href="/reclamer" target="_blank" class="btn-get-started scrollto">Se réclamer</a>
               <a
                 href="https://www.youtube.com/watch?v=QLrCs6xmig4"
                 class="glightbox btn-watch-video"
@@ -320,17 +320,32 @@
                     ></div>
                   </div>
                 </div>
-
+                
                 <div class="progress">
                   <span class="skill"
-                    >Reclamation Traiteé <i class="val">100%</i></span
+                    >Reclamation En attente <i class="val">{{$stats['en attente'].'%'}}</i></span
                   >
-
                   <div class="progress-bar-wrap">
                     <div
                       class="progress-bar"
                       role="progressbar"
-                      aria-valuenow="90"
+                      aria-valuenow="{{$stats['en attente']}}"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    ></div>
+                  </div>
+                </div>
+
+
+                <div class="progress">
+                  <span class="skill"
+                    >Reclamation En Cours <i class="val">{{$stats['en cours'].'%'}}</i></span
+                  >
+                  <div class="progress-bar-wrap">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      aria-valuenow="{{$stats['en cours']}}"
                       aria-valuemin="0"
                       aria-valuemax="100"
                     ></div>
@@ -339,28 +354,14 @@
 
                 <div class="progress">
                   <span class="skill"
-                    >Reclamation En Cours <i class="val">75%</i></span
+                    >Reclamation Traiteé <i class="val">{{$stats['traité'].'%'}}</i></span
                   >
-                  <div class="progress-bar-wrap">
-                    <div
-                      class="progress-bar"
-                      role="progressbar"
-                      aria-valuenow="75"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
 
-                <div class="progress">
-                  <span class="skill"
-                    >Reclamation Rejeté <i class="val">55%</i></span
-                  >
                   <div class="progress-bar-wrap">
                     <div
                       class="progress-bar"
                       role="progressbar"
-                      aria-valuenow="55"
+                      aria-valuenow="{{$stats['traité']}}"
                       aria-valuemin="0"
                       aria-valuemax="100"
                     ></div>
@@ -483,7 +484,7 @@
               </p>
             </div>
             <div class="col-lg-3 cta-btn-container text-center">
-              <a class="cta-btn align-middle glightbox" href="" target="_blank">Se réclamer</a>
+              <a class="cta-btn align-middle" href="/reclamer" target="_blank">Se réclamer</a>
             </div>
           </div>
         </div>
@@ -666,17 +667,18 @@
 
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
               <form
-                action="forms/contact.php"
+                action="{{ route('add-contact') }}"
                 method="post"
                 role="form"
                 class="php-email-form"
               >
+              @csrf  
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label for="name">Votre nom</label>
                     <input
                       type="text"
-                      name="name"
+                      name="from_user"
                       class="form-control"
                       id="name"
                       required
