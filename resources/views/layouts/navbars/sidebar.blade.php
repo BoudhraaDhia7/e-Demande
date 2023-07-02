@@ -63,7 +63,7 @@
             @endif
             @if (Auth::user()->role <= 1)
             <li class="nav-item{{ $activePage == 'inbox' ? ' active' : '' }}">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="/contact">
                     <i class="fas fa-inbox"></i>
                     <p>Boite de réception</p>
                 </a>

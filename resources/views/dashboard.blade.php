@@ -36,7 +36,7 @@
                         </div>
                        
                         <div class="row justify-content-center">
-                            <a href="/contacts">Voir messages</a>
+                            <a href="/contact">Voir messages</a>
                         </div>
                     
                     </div>
